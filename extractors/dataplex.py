@@ -10,10 +10,12 @@ class DataplexExtractor(BaseExtractor):
     def __init__(self, project_id: str, regions: List[str] = None, credentials=None):
         super().__init__(project_id=project_id, credentials=credentials)
         self.regions = regions or ["us", "eu", "global", "us-central1"]
-        self.dataplex_client = dataplex_v1.DataplexServiceClient(credentials=self.credentials)
-        self.datascan_client = dataplex_v1.DataScanServiceClient(credentials=self.credentials)
+        self.dataplex_client = None
+        self.datascan_client = None
 
     def extract(self) -> Dict[str, Any]:
+        self.dataplex_client = dataplex_v1.DataplexServiceClient(credentials=self.credentials)
+        self.datascan_client = dataplex_v1.DataScanServiceClient(credentials=self.credentials)
         lakes_metadata = []
         datascans_metadata = []
 

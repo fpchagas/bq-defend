@@ -8,12 +8,12 @@ class CloudSQLExtractor(BaseExtractor):
     """
     def __init__(self, project_id: str, credentials=None):
         super().__init__(project_id=project_id, credentials=credentials)
-        # cache_discovery=False prevents local filesystem warnings/errors during discovery
+        self.sql_service = None
+
+    def extract(self) -> Dict[str, Any]:
         self.sql_service = googleapiclient.discovery.build(
             'sqladmin', 'v1beta4', credentials=self.credentials, cache_discovery=False
         )
-
-    def extract(self) -> Dict[str, Any]:
         instances_metadata = []
         try:
             request = self.sql_service.instances().list(project=self.project_id)

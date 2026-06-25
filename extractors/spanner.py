@@ -8,9 +8,10 @@ class SpannerExtractor(BaseExtractor):
     """
     def __init__(self, project_id: str, credentials=None):
         super().__init__(project_id=project_id, credentials=credentials)
-        self.spanner_client = spanner.Client(project=self.project_id, credentials=self.credentials)
+        self.spanner_client = None
 
     def extract(self) -> Dict[str, Any]:
+        self.spanner_client = spanner.Client(project=self.project_id, credentials=self.credentials)
         instances_metadata = []
         try:
             instances = list(self.spanner_client.list_instances())

@@ -10,10 +10,12 @@ class BigQueryExtractor(BaseExtractor):
     """
     def __init__(self, project_id: str, credentials=None):
         super().__init__(project_id=project_id, credentials=credentials)
-        self.bq_client = bigquery.Client(project=self.project_id, credentials=self.credentials)
-        self.transfer_client = bigquery_datatransfer.DataTransferServiceClient(credentials=self.credentials)
+        self.bq_client = None
+        self.transfer_client = None
 
     def extract(self) -> Dict[str, Any]:
+        self.bq_client = bigquery.Client(project=self.project_id, credentials=self.credentials)
+        self.transfer_client = bigquery_datatransfer.DataTransferServiceClient(credentials=self.credentials)
         datasets_metadata = []
         try:
             datasets = list(self.bq_client.list_datasets())

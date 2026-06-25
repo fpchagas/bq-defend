@@ -8,10 +8,12 @@ class PubSubExtractor(BaseExtractor):
     """
     def __init__(self, project_id: str, credentials=None):
         super().__init__(project_id=project_id, credentials=credentials)
-        self.publisher_client = pubsub_v1.PublisherClient(credentials=self.credentials)
-        self.subscriber_client = pubsub_v1.SubscriberClient(credentials=self.credentials)
+        self.publisher_client = None
+        self.subscriber_client = None
 
     def extract(self) -> Dict[str, Any]:
+        self.publisher_client = pubsub_v1.PublisherClient(credentials=self.credentials)
+        self.subscriber_client = pubsub_v1.SubscriberClient(credentials=self.credentials)
         topics_metadata = []
         subscriptions_metadata = []
         project_path = f"projects/{self.project_id}"

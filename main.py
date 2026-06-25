@@ -1,5 +1,9 @@
 import argparse
+import os
 import concurrent.futures
+
+# Set GRPC_DNS_RESOLVER to native to avoid c-ares DNS resolver thread crashes
+os.environ["GRPC_DNS_RESOLVER"] = "native"
 import json
 import logging
 import sys

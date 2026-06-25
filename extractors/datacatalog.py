@@ -10,10 +10,12 @@ class DataCatalogExtractor(BaseExtractor):
     def __init__(self, project_id: str, regions: List[str] = None, credentials=None):
         super().__init__(project_id=project_id, credentials=credentials)
         self.regions = regions or ["us", "eu", "global", "us-central1"]
-        self.catalog_client = datacatalog_v1.DataCatalogClient(credentials=self.credentials)
-        self.policy_client = datacatalog_v1.PolicyTagManagerClient(credentials=self.credentials)
+        self.catalog_client = None
+        self.policy_client = None
 
     def extract(self) -> Dict[str, Any]:
+        self.catalog_client = datacatalog_v1.DataCatalogClient(credentials=self.credentials)
+        self.policy_client = datacatalog_v1.PolicyTagManagerClient(credentials=self.credentials)
         taxonomies_metadata = []
         tag_templates = []
         applied_tags = []

@@ -11,9 +11,10 @@ class ResourceManagerExtractor(BaseExtractor):
         super().__init__(project_id=project_id or "", credentials=credentials)
         self.org_id = org_id
         self.folder_id = folder_id
-        self.client = resourcemanager_v3.ProjectsClient(credentials=self.credentials)
+        self.client = None
 
     def extract(self) -> Dict[str, Any]:
+        self.client = resourcemanager_v3.ProjectsClient(credentials=self.credentials)
         projects = []
         try:
             if self.org_id:

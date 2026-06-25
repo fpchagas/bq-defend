@@ -8,9 +8,10 @@ class BigtableExtractor(BaseExtractor):
     """
     def __init__(self, project_id: str, credentials=None):
         super().__init__(project_id=project_id, credentials=credentials)
-        self.bigtable_client = bigtable.Client(project=self.project_id, credentials=self.credentials, admin=True)
+        self.bigtable_client = None
 
     def extract(self) -> Dict[str, Any]:
+        self.bigtable_client = bigtable.Client(project=self.project_id, credentials=self.credentials, admin=True)
         instances_metadata = []
         try:
             res = self.bigtable_client.list_instances()

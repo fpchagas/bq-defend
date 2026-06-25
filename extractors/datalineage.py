@@ -10,9 +10,10 @@ class DataLineageExtractor(BaseExtractor):
     def __init__(self, project_id: str, regions: List[str] = None, credentials=None):
         super().__init__(project_id=project_id, credentials=credentials)
         self.regions = regions or ["us", "eu", "global", "us-central1"]
-        self.client = lineage_v1.LineageClient(credentials=self.credentials)
+        self.client = None
 
     def extract(self) -> Dict[str, Any]:
+        self.client = lineage_v1.LineageClient(credentials=self.credentials)
         processes_metadata = []
         for region in self.regions:
             parent = f"projects/{self.project_id}/locations/{region}"

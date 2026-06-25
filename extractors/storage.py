@@ -9,9 +9,10 @@ class StorageExtractor(BaseExtractor):
     """
     def __init__(self, project_id: str, credentials=None):
         super().__init__(project_id=project_id, credentials=credentials)
-        self.storage_client = storage.Client(project=self.project_id, credentials=self.credentials)
+        self.storage_client = None
 
     def extract(self) -> Dict[str, Any]:
+        self.storage_client = storage.Client(project=self.project_id, credentials=self.credentials)
         buckets_metadata = []
         try:
             buckets = list(self.storage_client.list_buckets())
