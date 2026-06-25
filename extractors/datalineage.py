@@ -1,4 +1,4 @@
-from google.cloud.datacatalog import lineage_v1
+from google.cloud import datacatalog_lineage_v1 as lineage_v1
 from extractors.base import BaseExtractor
 from typing import Dict, Any, List
 
